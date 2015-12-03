@@ -15,6 +15,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 	<meta charset="utf-8">
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="generator" content="Computer Network Security" />
 	<title>Computer and Network Security Club</title>
 	<!-- Place favicon.ico in the `app/` directory -->
 
@@ -62,28 +63,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <span id="browser-sync-binding"></span>
 <template is="dom-bind" id="app">
 
-	<paper-drawer-panel id="drawer-panel">
+	<paper-drawer-panel id="paperDrawerPanel">
 		<!-- Drawer Scroll Header Panel -->
 		<paper-scroll-header-panel drawer fixed>
 
 			<!-- Drawer Toolbar -->
-			<paper-toolbar id="drawer-toolbar">
+			<paper-toolbar id="drawerToolbar">
 				<span class="paper-font-title">Menu</span>
 			</paper-toolbar>
 
 			<!-- Drawer Content -->
 			<paper-menu class="list" attr-for-selected="data-route" selected="[[route]]">
-				<a data-route="home" href="/" on-click="onDataRouteClick">
+				<a data-route="home" href="{{baseUrl}}">
 					<iron-icon icon="home"></iron-icon>
 					<span>Home</span>
 				</a>
 
-				<a data-route="about" href="/about" on-click="onDataRouteClick">
+				<a data-route="about" href="about">
 					<iron-icon icon="info"></iron-icon>
 					<span>About</span>
 				</a>
 
-				<a data-route="resources" href="/resources" on-click="onDataRouteClick">
+				<a data-route="resources" href="resources">
 					<iron-icon icon="info"></iron-icon>
 					<span>Resources</span>
 				</a>
@@ -96,12 +97,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 		</paper-scroll-header-panel>
 
 		<!-- Main Area -->
-		<paper-scroll-header-panel main condenses keep-condensed-header>
+		<paper-scroll-header-panel main id="headerPanelMain" condenses keep-condensed-header>
 
 			<!-- Main Toolbar -->
-			<paper-toolbar id="header-toolbar" class="tall">
-				<paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+			<paper-toolbar id="mainToolbar" class="tall">
+				<paper-icon-button id="paper-toggle" icon="menu" paper-drawer-toggle></paper-icon-button>
 				<span class="flex"></span>
+
+				<!-- Toolbar icons -->
+				<paper-icon-button icon="refresh"></paper-icon-button>
 
 				<!-- Application name -->
 				<div class="middle middle-container center horizontal layout">
@@ -128,35 +132,40 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 					<section data-route="about">
 						<paper-material elevation="1">
-							Hi
+							CNS@UVA
 						</paper-material>
 					</section>
 
 					<section data-route="resources">
-							<paper-iframe src="https://docs.google.com/document/d/1CbP95KVjZl6ZldEaq71zmoLQiR0Vo3EiH1W4GAC_8Dg/pub"></paper-iframe>
-					</section>
-
-					<section data-route="users">
-						<paper-material elevation="1">
-							<h2 class="page-title">Users</h2>
-							<p>This is the users section</p>
-							<a href="/users/Rob">Rob</a>
-						</paper-material>
-					</section>
-
-					<section data-route="user-info">
-						<paper-material elevation="1">
-							<h2 class="page-title">
-								User:<span>{{params.name}}</span>
-							</h2>
-							<div>This is <span>{{params.name}}</span>'s section</div>
-						</paper-material>
+						<paper-iframe src="https://docs.google.com/document/d/1CbP95KVjZl6ZldEaq71zmoLQiR0Vo3EiH1W4GAC_8Dg/pub"></paper-iframe>
 					</section>
 
 				</iron-pages>
 			</div>
 		</paper-scroll-header-panel>
 	</paper-drawer-panel>
+
+	<paper-toast id="toast">
+		<span class="toast-hide-button" role="button" tabindex="0" onclick="app.$.toast.hide()">Ok</span>
+	</paper-toast>
+
+	<!-- Uncomment next block to enable Service Worker support (1/2) -->
+	<!--
+	<paper-toast id="caching-complete"
+							 duration="6000"
+							 text="Caching complete! This app will work offline.">
+	</paper-toast>
+
+	<platinum-sw-register auto-register
+												clients-claim
+												skip-waiting
+												on-service-worker-installed="displayInstalledToast">
+		<platinum-sw-cache default-cache-strategy="fastest"
+											 cache-config-file="cache-config.json">
+		</platinum-sw-cache>
+	</platinum-sw-register>
+	-->
+
 </template>
 
 <!-- build:js scripts/app.js -->
