@@ -1,0 +1,38 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/paper-material/paper-material.html">
+<dom-module id="paper-iframe">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+			#paper {
+				height: 117em;
+				width: 100%;
+			}
+			#iframe {
+				border: none;
+				display: block;
+				height: 100%;
+				width: 100%;
+			}
+		</style>
+		<paper-material id="paper">
+			<iframe id="iframe" src="{{src}}" scrolling="no"></iframe>
+		</paper-material>
+	</template>
+	<script>
+		(function () {
+			'use strict';
+
+			Polymer({
+				is: 'paper-iframe',
+				properties: {
+					src: {
+						type: String
+					}
+				}
+			});
+		})();
+	</script>
+</dom-module>
