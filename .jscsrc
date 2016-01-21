@@ -1,8 +1,10 @@
 {
-  "preset": "google",
-  "validateIndentation": "\t",
-  "disallowSpacesInAnonymousFunctionExpression": null,
-  "disallowTrailingWhitespace": null,
-  "maximumLineLength": 140,
-  "excludeFiles": ["node_modules/**"]
+	"preset": "google",
+	"validateIndentation": "\t",
+	"disallowSpacesInAnonymousFunctionExpression": null,
+	"disallowTrailingWhitespace": null,
+	"maximumLineLength": 140,
+	"excludeFiles": [
+		"node_modules/**"
+	]
 }

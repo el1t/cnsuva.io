@@ -1,4 +1,6 @@
 {
+  "name": "cnsuva.io",
+  "version": "0.0.0",
   "private": true,
   "devDependencies": {
     "browser-sync": "^2.7.7",
@@ -30,9 +32,20 @@
   },
   "scripts": {
     "test": "gulp test:local",
-    "start": "gulp serve"
+    "serve": "gulp serve",
+    "start": "node ./server/bin/www"
   },
   "engines": {
     "node": ">=0.10.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "cookie-parser": "^1.4.1",
+    "debug": "^2.2.0",
+    "express": "^4.13.3",
+    "hbs": "^4.0.0",
+    "mongojs": "^2.3.0",
+    "morgan": "^1.6.1",
+    "serve-favicon": "^2.3.0"
   }
 }
