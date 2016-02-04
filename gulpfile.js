@@ -23,6 +23,8 @@ var glob = require('glob-all');
 var historyApiFallback = require('connect-history-api-fallback');
 var packageJson = require('./package.json');
 var crypto = require('crypto');
+var ensureFiles = require('./tasks/ensure-files.js');
+
 // var ghPages = require('gulp-gh-pages');
 
 var AUTOPREFIXER_BROWSERS = [
@@ -67,12 +69,10 @@ var imageOptimizeTask = function(src, dest) {
 
 var optimizeHtmlTask = function(src, dest) {
 	var assets = $.useref.assets({
-		searchPath: ['.tmp', 'app', dist()]
+		searchPath: ['.tmp', 'app']
 	});
 
 	return gulp.src(src)
-		// Replace path for vulcanized assets
-		.pipe($.if('*.html', $.replace('elements/elements.html', 'elements/elements.vulcanized.html')))
 		.pipe(assets)
 		// Concatenate and minify JavaScript
 		.pipe($.if('*.js', $.uglify({
@@ -105,26 +105,15 @@ gulp.task('elements', function() {
 	return styleTask('elements', ['**/*.css']);
 });
 
-// Lint JavaScript
-gulp.task('lint', function() {
-	return gulp.src([
-			'app/scripts/**/*.js',
-			'app/elements/**/*.js',
-			'app/elements/**/*.html',
-			'gulpfile.js'
-		])
-		.pipe(reload({
-			stream: true,
-			once: true
-		}))
+// Ensure that we are not missing required files for the project
+// "dot" files are specifically tricky due to them being hidden on
+// some systems.
+gulp.task('ensureFiles', function(cb) {
+	var requiredFiles = ['.jscsrc', '.jshintrc', '.bowerrc'];
 
-		// JSCS has not yet a extract option
-		.pipe($.if('*.html', $.htmlExtract()))
-		.pipe($.jshint())
-		.pipe($.jscs())
-		.pipe($.jscsStylish.combineWithHintResults())
-		.pipe($.jshint.reporter('jshint-stylish'))
-		.pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
+	ensureFiles(requiredFiles.map(function(p) {
+		return path.join(__dirname, p);
+	}), cb);
 });
 
 // Optimize images
@@ -137,32 +126,21 @@ gulp.task('copy', function() {
 	var app = gulp.src([
 		'app/*',
 		'!app/test',
-		'!app/cache-config.json'
+		'!app/elements',
+		'!app/bower_components',
+		'!app/cache-config.json',
+		'!**/.DS_Store'
 	], {
 		dot: true
 	}).pipe(gulp.dest(dist()));
 
+	// Copy over only the bower_components we need
+	// These are things which cannot be vulcanized
 	var bower = gulp.src([
-		'bower_components/**/*'
+		'app/bower_components/{webcomponentsjs,platinum-sw,sw-toolbox,promise-polyfill}/**/*'
 	]).pipe(gulp.dest(dist('bower_components')));
 
-	var elements = gulp.src(['app/elements/**/*.html',
-			'app/elements/**/*.css',
-			'app/elements/**/*.js'
-		])
-		.pipe(gulp.dest(dist('elements')));
-
-	var swBootstrap = gulp.src(['bower_components/platinum-sw/bootstrap/*.js'])
-		.pipe(gulp.dest(dist('elements/bootstrap')));
-
-	var swToolbox = gulp.src(['bower_components/sw-toolbox/*.js'])
-		.pipe(gulp.dest(dist('sw-toolbox')));
-
-	var vulcanized = gulp.src(['app/elements/elements.html'])
-		.pipe($.rename('elements.vulcanized.html'))
-		.pipe(gulp.dest(dist('elements')));
-
-	return merge(app, bower, elements, vulcanized, swBootstrap, swToolbox)
+	return merge(app, bower)
 		.pipe($.size({
 			title: 'copy'
 		}));
@@ -180,21 +158,19 @@ gulp.task('fonts', function() {
 // Scan your HTML for assets & optimize them
 gulp.task('html', function() {
 	return optimizeHtmlTask(
-		['app/**/*.html', '!app/{elements,test}/**/*.html'],
+		['app/**/*.html', '!app/{elements,test,bower_components}/**/*.html'],
 		dist());
 });
 
 // Vulcanize granular configuration
 gulp.task('vulcanize', function() {
-	var DEST_DIR = dist('elements');
-	return gulp.src(dist('elements/elements.vulcanized.html'))
+	return gulp.src('app/elements/elements.html')
 		.pipe($.vulcanize({
 			stripComments: true,
 			inlineCss: true,
 			inlineScripts: true
 		}))
-		.pipe($.minifyInline())
-		.pipe(gulp.dest(DEST_DIR))
+		.pipe(gulp.dest(dist('elements')))
 		.pipe($.size({title: 'vulcanize'}));
 });
 
@@ -239,7 +215,7 @@ gulp.task('clean', function() {
 });
 
 // Watch files for changes & reload
-gulp.task('serve', ['lint', 'styles', 'elements', 'images'], function() {
+gulp.task('serve', ['styles', 'elements'], function() {
 	browserSync({
 		port: 5000,
 		notify: false,
@@ -258,17 +234,13 @@ gulp.task('serve', ['lint', 'styles', 'elements', 'images'], function() {
 		// https: true,
 		server: {
 			baseDir: ['.tmp', 'app'],
-			middleware: [historyApiFallback()],
-			routes: {
-				'/bower_components': 'bower_components'
-			}
+			middleware: [historyApiFallback()]
 		}
 	});
 
 	gulp.watch(['app/**/*.html'], reload);
 	gulp.watch(['app/styles/**/*.css'], ['styles', reload]);
 	gulp.watch(['app/elements/**/*.css'], ['elements', reload]);
-	gulp.watch(['app/{scripts,elements}/**/{*.js,*.html}'], ['lint']);
 	gulp.watch(['app/images/**/*'], reload);
 });
 
@@ -301,7 +273,7 @@ gulp.task('default', ['clean'], function(cb) {
 	runSequence(
 		['copy', 'styles'],
 		'elements',
-		['lint', 'images', 'fonts', 'html'],
+		['images', 'fonts', 'html'],
 		'vulcanize', // 'cache-config',
 		cb);
 });
@@ -333,4 +305,5 @@ require('web-component-tester').gulp.init(gulp);
 // Load custom tasks from the `tasks` directory
 try {
 	require('require-dir')('tasks');
-} catch (err) {}
+} catch (err) {
+}

@@ -9,13 +9,13 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<html lang="">
+<html lang="en">
 
 <head>
 	<meta charset="utf-8">
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="generator" content="Computer Network Security" />
+	<meta name="generator" content="Computer Network Security"/>
 	<title>Computer and Network Security Club</title>
 	<!-- Place favicon.ico in the `app/` directory -->
 
@@ -47,19 +47,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 	<!-- endbuild-->
 
 	<!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
-	<script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+	<script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 	<!-- endbuild -->
 
-	<!-- will be replaced with elements/elements.vulcanized.html -->
+	<!-- Because this project uses vulcanize this should be your only html import
+			 in this file. All other imports should go in elements.html -->
 	<link rel="import" href="elements/elements.html">
-	<!-- endreplace-->
 
 	<!-- For shared styles, shared-styles.html import in elements.html -->
 	<style is="custom-style" include="shared-styles"></style>
-
 </head>
 
-<body unresolved class="fullbleed layout vertical">
+<body unresolved>
 <span id="browser-sync-binding"></span>
 <template is="dom-bind" id="app">
 
@@ -69,11 +68,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 			<!-- Drawer Toolbar -->
 			<paper-toolbar id="drawerToolbar">
-				<span class="paper-font-title">Menu</span>
+				<span class="menu-name">Menu</span>
 			</paper-toolbar>
 
 			<!-- Drawer Content -->
-			<paper-menu class="list" attr-for-selected="data-route" selected="[[route]]">
+			<paper-menu attr-for-selected="data-route" selected="[[route]]">
 				<a data-route="home" href="{{baseUrl}}">
 					<iron-icon icon="home"></iron-icon>
 					<span>Home</span>
@@ -102,13 +101,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 			<!-- Main Toolbar -->
 			<paper-toolbar id="mainToolbar" class="tall">
 				<paper-icon-button id="paper-toggle" icon="menu" paper-drawer-toggle></paper-icon-button>
-				<span class="flex"></span>
+				<span class="space"></span>
 
 				<!-- Toolbar icons -->
 				<paper-icon-button icon="refresh"></paper-icon-button>
 
 				<!-- Application name -->
-				<div class="middle middle-container center horizontal layout">
+				<div class="middle middle-container">
 					<div class="app-name">Computer and Network Security Club</div>
 				</div>
 
@@ -121,12 +120,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 					<section data-route="home">
 						<paper-material elevation="1">
 							<p class="paper-font-body2">
-								We are a group of UVA students interested in software, network, hardware, and application security. We engage in security competitions as a club, host interesting speakers, develop security tools and challenges, and leverage industry connections.
+								We are a group of UVA students interested in software, network, hardware, and
+								application security. We engage in security competitions as a club, host interesting
+								speakers, develop security tools and challenges, and leverage industry connections.
 							</p>
 							<p class="paper-font-body2">
-								If you're interested, sign up for our mailing list below to receive club information!
+								If you're interested, sign up for our mailing list below to receive club
+								information!
 							</p>
-							<a href="https://lists.virginia.edu/sympa/subscribe/cnsuva" target="_blank" class="inherit">
+							<a href="https://lists.virginia.edu/sympa/subscribe/cnsuva" target="_blank"
+							   class="inherit">
 								<paper-button raised>Join our mailing list</paper-button>
 							</a>
 						</paper-material>
@@ -139,7 +142,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 					</section>
 
 					<section data-route="resources">
-						<paper-iframe src="https://docs.google.com/document/d/1CbP95KVjZl6ZldEaq71zmoLQiR0Vo3EiH1W4GAC_8Dg/pub"></paper-iframe>
+						<paper-iframe
+							src="https://docs.google.com/document/d/1CbP95KVjZl6ZldEaq71zmoLQiR0Vo3EiH1W4GAC_8Dg/pub"></paper-iframe>
 					</section>
 
 				</iron-pages>
@@ -148,7 +152,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 	</paper-drawer-panel>
 
 	<paper-toast id="toast">
-		<span class="toast-hide-button" role="button" tabindex="0" onclick="app.$.toast.hide()">Ok</span>
+		<span class="toast-hide-button" role="button" tabindex="0"
+		      onclick="app.$.toast.hide()">Ok</span>
 	</paper-toast>
 
 	<!-- Uncomment next block to enable Service Worker support (1/2) -->
@@ -161,6 +166,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 	<platinum-sw-register auto-register
 												clients-claim
 												skip-waiting
+                          base-uri="bower_components/platinum-sw/bootstrap"
 												on-service-worker-installed="displayInstalledToast">
 		<platinum-sw-cache default-cache-strategy="fastest"
 											 cache-config-file="cache-config.json">
