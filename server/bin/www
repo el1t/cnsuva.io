@@ -9,17 +9,16 @@ var debug = require('debug')('cnsuva:server');
 var http = require('http');
 
 /**
- * Get port from environment and store in Express.
+ * Retrieve port from environment.
  */
 
 var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+var server = http.createServer(app.callback());
 
 /**
  * Listen on provided port, on all network interfaces.

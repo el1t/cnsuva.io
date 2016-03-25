@@ -25,8 +25,6 @@ var packageJson = require('./package.json');
 var crypto = require('crypto');
 var ensureFiles = require('./tasks/ensure-files.js');
 
-// var ghPages = require('gulp-gh-pages');
-
 var AUTOPREFIXER_BROWSERS = [
 	'ie >= 10',
 	'ie_mob >= 10',
@@ -277,30 +275,6 @@ gulp.task('default', ['clean'], function(cb) {
 		'vulcanize', // 'cache-config',
 		cb);
 });
-
-// Build then deploy to GitHub pages gh-pages branch
-gulp.task('build-deploy-gh-pages', function(cb) {
-	runSequence(
-		'default',
-		'deploy-gh-pages',
-		cb);
-});
-
-// Deploy to GitHub pages gh-pages branch
-gulp.task('deploy-gh-pages', function() {
-	return gulp.src(dist('**/*'))
-		// Check if running task from Travis Cl, if so run using GH_TOKEN
-		// otherwise run using ghPages defaults.
-		.pipe($.if(process.env.TRAVIS === 'true', $.ghPages({
-			remoteUrl: 'https://$GH_TOKEN@github.com/polymerelements/polymer-starter-kit.git',
-			silent: true,
-			branch: 'gh-pages'
-		}), $.ghPages()));
-});
-
-// Load tasks for web-component-tester
-// Adds tasks for `gulp test:local` and `gulp test:remote`
-require('web-component-tester').gulp.init(gulp);
 
 // Load custom tasks from the `tasks` directory
 try {
