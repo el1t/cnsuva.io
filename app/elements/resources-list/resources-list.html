@@ -1,0 +1,58 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<dom-module id="resources-list">
+	<template>
+		<style>
+			paper-material {
+				border-radius: 2px;
+				height: 100%;
+				padding: 1.5rem;
+				width: calc(98.66% - 16px);
+				margin: 16px auto;
+				background: white;
+			}
+			h1 {
+				font-weight: normal;
+				font-size: 2rem;
+				margin: 0;
+			}
+			h2 {
+				font-weight: normal;
+				font-size: 1.2rem;
+				margin-top: 1.5rem;
+				margin-bottom: 0.5rem;
+			}
+			p {
+				margin: 0;
+			}
+			a {
+				color: #0091EA;
+				text-decoration: none;
+				transition: color 100ms linear;
+			}
+			a:hover {
+				color: #00B0FF;
+			}
+		</style>
+		<template is="dom-repeat" items="[[resources]]" as="category">
+			<paper-material>
+				<h1>{{category.title}}</h1>
+				<template is="dom-repeat" items="[[category.sites]]" as="site">
+					<h2><a href="{{site.href}}" target="_blank">{{site.name}}</a></h2>
+					<p>{{site.desc}}</p>
+				</template>
+			</paper-material>
+		</template>
+		<iron-ajax auto id="ajax" url="/resources.json" handle-as="json" last-response="{{resources}}"></iron-ajax>
+	</template>
+	<script>
+		(function() {
+			'use strict';
+
+			Polymer({
+				is: 'resources-list'
+			});
+		})();
+	</script>
+</dom-module>

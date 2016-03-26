@@ -14,8 +14,6 @@ var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var del = require('del');
 var runSequence = require('run-sequence');
-var browserSync = require('browser-sync');
-var reload = browserSync.reload;
 var merge = require('merge-stream');
 var path = require('path');
 var fs = require('fs');
@@ -210,59 +208,6 @@ gulp.task('cache-config', function(callback) {
 // Clean output directory
 gulp.task('clean', function() {
 	return del(['.tmp', dist()]);
-});
-
-// Watch files for changes & reload
-gulp.task('serve', ['styles', 'elements'], function() {
-	browserSync({
-		port: 5000,
-		notify: false,
-		logPrefix: 'PSK',
-		snippetOptions: {
-			rule: {
-				match: '<span id="browser-sync-binding"></span>',
-				fn: function(snippet) {
-					return snippet;
-				}
-			}
-		},
-		// Run as an https by uncommenting 'https: true'
-		// Note: this uses an unsigned certificate which on first access
-		//       will present a certificate warning in the browser.
-		// https: true,
-		server: {
-			baseDir: ['.tmp', 'app'],
-			middleware: [historyApiFallback()]
-		}
-	});
-
-	gulp.watch(['app/**/*.html'], reload);
-	gulp.watch(['app/styles/**/*.css'], ['styles', reload]);
-	gulp.watch(['app/elements/**/*.css'], ['elements', reload]);
-	gulp.watch(['app/images/**/*'], reload);
-});
-
-// Build and serve the output from the dist build
-gulp.task('serve:dist', ['default'], function() {
-	browserSync({
-		port: 5001,
-		notify: false,
-		logPrefix: 'PSK',
-		snippetOptions: {
-			rule: {
-				match: '<span id="browser-sync-binding"></span>',
-				fn: function(snippet) {
-					return snippet;
-				}
-			}
-		},
-		// Run as an https by uncommenting 'https: true'
-		// Note: this uses an unsigned certificate which on first access
-		//       will present a certificate warning in the browser.
-		// https: true,
-		server: dist(),
-		middleware: [historyApiFallback()]
-	});
 });
 
 // Build production files, the default task
