@@ -1,0 +1,125 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../bower_components/gold-email-input/gold-email-input.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<dom-module id="subscribe-button">
+	<template>
+		<paper-button raised on-tap="subscribe">Join our mailing list</paper-button>
+		<paper-dialog with-backdrop id="dialog">
+			<p>Please enter your virginia.edu email address.</p>
+			<form id="form" is="iron-form" method="post" action="/subscribe/email">
+				<gold-email-input id="email" autoValidate autofocus required value="{{email}}"></gold-email-input>
+			</form>
+			<div class="buttons">
+				<paper-button dialog-dismiss>Cancel</paper-button>
+				<paper-button id="submit" on-tap="submit">Subscribe</paper-button>
+			</div>
+		</paper-dialog>
+		<paper-dialog with-backdrop id="dialogVerify">
+			<p>Check your email for a verification code!</p>
+			<form id="verify" is="iron-form" method="post" action="/subscribe/verify">
+				<paper-input disabled label="Email" value="{{email}}"></paper-input>
+				<paper-input id="password" label="Verification Code" autoValidate autofocus required value="{{password}}" minlength=1></paper-input>
+			</form>
+			<div class="buttons">
+				<paper-button dialog-dismiss on-tap="subscribe">Back</paper-button>
+				<paper-button id="subscribe" on-tap="verify">Subscribe</paper-button>
+			</div>
+		</paper-dialog>
+		<paper-toast id="toast" text="{{toastMessage}}"></paper-toast>
+	</template>
+	<script>
+		(function() {
+			'use strict';
+
+			Polymer({
+				is: 'subscribe-button',
+				properties: {
+					email: String,
+					password: String,
+					toastMessage: String
+				},
+				ready: function() {
+					var self = this;
+					this.$.form.addEventListener('iron-form-presubmit', function() {
+						this.request.body = {
+							email: self.email,
+							list: 'cnsuva',
+							action: 'subrequest',
+							action_subscribe: 'Subscribe'
+						};
+					});
+					this.$.form.addEventListener('iron-form-response', function(e) {
+						var result = e.detail.response;
+						if (result.subscribed) {
+							// already subscribed
+							self.toastMessage = 'Already subscribed!';
+							self.$.toast.open();
+							self.$.dialog.close();
+						} else if (result.success) {
+							self.$.dialog.close();
+							self.$.password.disabled = false;
+							self.$.subscribe.disabled = false;
+							self.$.dialogVerify.open();
+						} else {
+							// error!
+							self.$.email.disabled = false;
+							self.$.submit.disabled = false;
+							self.toastMessage = 'Invalid email!';
+							self.$.toast.open();
+						}
+					});
+					this.$.verify.addEventListener('iron-form-presubmit', function() {
+						this.request.body = {
+							email: self.email,
+							passwd: self.password,
+							list: 'cnsuva',
+							action: 'subrequest',
+							action_subscribe: 'Subscribe'
+						};
+					});
+					this.$.verify.addEventListener('iron-form-response', function(e) {
+						var result = e.detail.response;
+						if (result.success) {
+							self.$.dialogVerify.close();
+							self.toastMessage = 'Subscribed!';
+							self.$.toast.open();
+						} else if (result.mismatch) {
+							// error!
+							self.$.password.disabled = false;
+							self.$.subscribe.disabled = false;
+							self.toastMessage = 'Wrong verification code!';
+							self.$.toast.open();
+						} else {
+							self.$.dialogVerify.close();
+							self.toastMessage = 'Unknown error occured...';
+							self.$.toast.open();
+						}
+					});
+				},
+				subscribe: function() {
+					this.$.email.disabled = false;
+					this.$.submit.disabled = false;
+					this.$.dialog.open();
+				},
+				submit: function() {
+					if (this.$.email.validate()) {
+						this.$.email.disabled = true;
+						this.$.submit.disabled = true;
+						this.$.form.submit();
+					}
+				},
+				verify: function() {
+					if (this.$.password.validate()) {
+						this.$.password.disabled = true;
+						this.$.subscribe.disabled = true;
+						this.$.verify.submit();
+					}
+				}
+			});
+		})();
+	</script>
+</dom-module>

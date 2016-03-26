@@ -4,6 +4,8 @@ let koa = require('koa'),
 	logger = require('koa-logger'),
 	serve = require('koa-static'),
 	bodyParser = require('koa-bodyparser'),
+	rawBody = require('raw-body'),
+	request = require('co-request'),
 	path = require('path'),
 	app = koa();
 
@@ -20,15 +22,45 @@ app.use(function *(next) {
 
 // Add middleware
 app.use(logger());
-app.use(bodyParser());
 
 // Serve static files
 app.use(serve(path.join(__dirname, '../dist')));
 
-// router.get('/', function *() {
-// 	this.body = 'Hey there';
-// });
+router.post('/subscribe/email', function *() {
+	let raw = yield rawBody(this.req);
+	// console.log(request);
+	let response = yield request({
+		method: 'POST',
+		uri: 'https://lists.virginia.edu/sympa',
+		rejectUnauthorized: false,
+		headers: {
+			'content-type': 'application/x-www-form-urlencoded'
+		},
+		body: raw
+	});
+	this.body = JSON.stringify({
+		success: response.body.indexOf('You requested a subscription to list cnsuva.') > -1,
+		subscribed: response.body.indexOf('You are already subscriber of list cnsuva.') > -1
+	});
+});
 
-// app.use(router.routes());
+router.post('/subscribe/verify', function *() {
+	let raw = yield rawBody(this.req);
+	let response = yield request({
+		method: 'POST',
+		uri: 'https://lists.virginia.edu/sympa',
+		rejectUnauthorized: false,
+		headers: {
+			'content-type': 'application/x-www-form-urlencoded'
+		},
+		body: raw
+	});
+	this.body = JSON.stringify({
+		success: response.body.indexOf('subscribe: action completed') > -1,
+		mismatch: response.body.indexOf('Provided password is incorrect') > -1
+	})
+});
+
+app.use(router.routes());
 
 module.exports = app;
