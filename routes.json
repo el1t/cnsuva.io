@@ -13,8 +13,12 @@
     "chunk": "main"
   },
   {
-    "path": "/about",
-    "page": "./pages/about"
+    "path": "/resources",
+    "page": "./pages/resources",
+    "chunk": "main",
+    "data": {
+      "resources": "GET resources.json"
+    }
   },
   {
     "path": "/tasks/:status(pending|completed)?",

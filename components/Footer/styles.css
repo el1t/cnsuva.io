@@ -1,0 +1,11 @@
+.footer {
+	flex-flow: row;
+	align-items: center;
+	padding-top: 1.5rem;
+	padding-bottom: 1.5rem;
+}
+
+.middle {
+	flex-grow: 1;
+	padding: 0 1rem;
+}

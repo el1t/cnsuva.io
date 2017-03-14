@@ -1,0 +1,29 @@
+.nav {
+	margin-bottom: 1rem;
+	& > a {
+	    text-decoration: none;
+		&:not(:last-child) {
+			margin-right: 1rem;
+		 }
+    }
+}
+
+.card {
+	width: inherit;
+	&:not(:last-child) {
+		margin-bottom: 1rem;
+	}
+}
+
+.site {
+	text-decoration: none;
+	color: inherit;
+	& > h5 {
+		margin-top: 0;
+		margin-bottom: 0.5rem;
+		/*font-size: 1.2rem;*/
+	}
+    & > p:not(:last-child) {
+		margin-bottom: 1.5rem;
+    }
+}

@@ -1,0 +1,130 @@
+[{
+	"title": "Web Security",
+	"sites": [{
+		"name": "OWASP Top 10",
+		"href": "https://www.owasp.org/index.php/Top_10_2013-Top_10",
+		"desc": "This guide is published by OWASP, an open group focused on web security. The latest revision (2013) details the top 10 web vulnerabilities seen in the wild, with extensive information on each one. Definitely a great starting point"
+	}, {
+		"name": "WebGoat",
+		"href": "https://webgoat.github.io",
+		"desc": "WebGoat is a purposely insecure web application made by OWASP to demonstrate basic security vulnerabilities. Each vulnerability in the app comes with extensive write-ups and information so you can really learn the ins and outs of every vuln."
+	}, {
+		"name": "Beyond SQLi: Obfuscate and Bypass",
+		"href": "https://www.exploit-db.com/papers/17934",
+		"desc": "This site lists techniques to get around filtering to help you with SQL injection. However, these techniques can be applied to filtering in general, such as to get around XSS or other filters."
+	}, {
+		"name": "SQL Injection Cheat Sheets",
+		"href": "http://pentestmonkey.net/category/cheat-sheet/sql-injection",
+		"desc": "This site hosts cheat sheets for 7 different flavours of SQL. They go into enumerating tables, columns and other kinds of data you’d need from a database."
+	}]
+}, {
+	"title": "Cryptography",
+	"sites": [{
+		"name": "Matasano Crypto Challenges",
+		"href": "http://cryptopals.com/",
+		"desc": "A series of online problems designed to take you from the basics of crypto-math to attacks on real world cryptography."
+	}, {
+		"name": "Introduction to Cryptography on Coursera",
+		"href": "https://class.coursera.org/crypto-preview",
+		"desc": "This online course is taught by Dan Boneh, one of the researchers on the forefront of modern cryptography. The course runs year-round, but there are also scheduled classes taught a few times a year."
+	}, {
+		"name": "Handbook of Applied Cryptography",
+		"href": "q=http://cacr.uwaterloo.ca/hac",
+		"desc": "Chapter 1 has a great overview of many different cryptographic primitives: symmetric-key encryption, public-key encryption, digital signatures, hash functions, randomness, etc. The other chapters get pretty intense but are also very good. Chapter 1 is probably all you’d need as an intro."
+	}]
+}, {
+	"title": "Application Security",
+	"sites": [{
+		"name": "Open Security Training",
+		"href": "http://opensecuritytraining.info/Training.html",
+		"desc": "A series of courses that build malware analysis and exploitation knowledge from the ground up. Start at Introductory x86 and move on from there."
+	}, {
+		"name": "Microcorruption",
+		"href": "https://microcorruption.com/login",
+		"desc": "A cool embedded security CTF made by the creators of Cryptopals, Matasano. A great way to learn assembly and debugging in a realistic context."
+	}, {
+		"name": "Modern Binary Exploitation",
+		"href": "https://github.com/RPISEC/MBE",
+		"desc": "This repository contains the materials to an RPI course on vulnerability research, reverse engineering and binary exploitation. The expected demographic is students with zero reverse engineering or binary exploitation knowledge."
+	}, {
+		"name": "Smashing the Stack for Fun and Profit",
+		"href": "http://insecure.org/stf/smashstack.html",
+		"desc": "This is THE writeup on buffer overflows. It requires a basic knowledge of x86 assembly. An understanding of concepts such as memory is helpful, but the paper does a nice job of explaining the stack and how programs access it."
+	}]
+}, {
+	"title": "General Practice",
+	"sites": [{
+		"name": "Practice Lab Mindmap",
+		"href": "http://www.amanhardikar.com/mindmaps/Practice.html",
+		"desc": "A huge list of sites, web apps, operating systems and mobile apps to practice exploiting. Some of the best are listed below."
+	}, {
+		"name": "Hack this Site",
+		"href": "https://www.hackthissite.org",
+		"desc": "In addition to some basic challenges, this site hosts a series of “realistic” challenges which give you (almost) a full site to hack."
+	}, {
+		"name": "Over the Wire Wargames",
+		"href": "http://overthewire.org/wargames",
+		"desc": "This site hosts a number of environments to try out binary exploitation. The levels start out very accessible, and build knowledge as you progress. The first wargame, bandit, also teaches how to use the command line on a linux system."
+	}, {
+		"name": "Smash the Stack Wargames",
+		"href": "http://smashthestack.org/index.html",
+		"desc": "Another set of wargames, this site offers additional opportunities for reverse engineering and exploitation."
+	}]
+}, {
+	"title": "Advanced",
+	"sites": [{
+		"name": "Crackmes.de",
+		"href": "http://crackmes.de",
+		"desc": "A user submitted archive of practice files people have developed that you can practice reverse engineering on."
+	}, {
+		"name": "Pwnable.kr",
+		"href": "http://pwnable.kr",
+		"desc": "A more advanced collection of security challenges. Mostly deals with executables, reversing, or system knowledge."
+	}, {
+		"name": "Security Traps",
+		"href": "http://www.securitytraps.pl",
+		"desc": "More advanced security challenges!"
+	}, {
+		"name": "Metasploit Unleashed",
+		"href": "https://www.offensive-security.com/metasploit-unleashed",
+		"desc": "Metasploit is the world’s most used penetration testing software. This course will teach you how to use Metasploit in a structured and professional manner."
+	}]
+}, {
+	"title": "CTF Information",
+	"sites": [{
+		"name": "CTFtime.org",
+		"href": "https://ctftime.org/event/list/upcoming",
+		"desc": "Hosts information about past CTFs, upcoming CTFs, and participants. Useful for finding upcoming live events to participate in!"
+	}, {
+		"name": "Shell Storm Archives",
+		"href": "http://shell-storm.org/repo/CTF",
+		"desc": "Stores challenges from past CTFs."
+	}, {
+		"name": "CTF Writeups",
+		"href": "https://github.com/ctfs",
+		"desc": "A GitHub organization with past year CTF writeups. Organized into different repositories for different years."
+	}, {
+		"name": "picoCTF",
+		"href": "https://picoctf.com",
+		"desc": "This is a good introductory CTF which is available for practice even though it’s ended. Also see picoCTF 2013."
+	}]
+}, {
+	"title": "News/Blogs",
+	"sites": [{
+		"name": "Schneier on Security",
+		"href": "https://www.schneier.com",
+		"desc": "Bruce Schneier is an internationally renowned security technologist. His blog is pretty good. Also check out his newsletter “Crypto-Gram”"
+	}, {
+		"name": "Krebs on Security",
+		"href": "http://krebsonsecurity.com",
+		"desc": "Brian Krebs is a reporter who also knows a lot about security. Doesn’t have headlines, does have very good in-depth reporting."
+	}, {
+		"name": "SANS Internet Storm Center",
+		"href": "https://isc.sans.edu",
+		"desc": "The Internet Storm Center (ISC) monitors for and identifies new and emerging cyber threats. Sometimes the threats are underwhelming (e.g. malicious spam with Word document), but the ISC has also detected and analysed important new malware."
+	}, {
+		"name": "Hacker News",
+		"href": "https://news.ycombinator.com",
+		"desc": "Mostly about software development, but also some security."
+	}]
+}]

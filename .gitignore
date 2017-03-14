@@ -52,4 +52,14 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-node_modules/
+# Compiled output
+public/dist
+public/index.html
+public/sitemap.xml
+
+# Node.js and NPM
+node_modules
+npm-debug.log
+
+# Firebase
+firebase-debug.log
