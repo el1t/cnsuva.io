@@ -99,7 +99,7 @@ tasks.set('build', () => {
 tasks.set('publish', () => {
 	const remote = {
 		url: 'https://github.com/cnsuva/cnsuva.github.io.git',
-		branch: 'gh-pages',
+		branch: 'master',
 	};
 	global.DEBUG = process.argv.includes('--debug') || false;
 	const spawn = require('child_process').spawn;
@@ -124,8 +124,9 @@ tasks.set('publish', () => {
 		.then(() => git('ls-remote', '--exit-code', remote.url, 'master')
 			.then(() => Promise.resolve()
 				.then(() => git('fetch', 'origin'))
-				.then(() => git('reset', `origin/${remote.branch}`, '--hard'))
-				.then(() => git('clean', '--force'))
+				.then(() => git('pull', 'origin', 'master'))
+				.then(() => git('checkout', '--ours', '.'))
+				.then(() => git('add', '-u'))
 			)
 			.catch(() => Promise.resolve())
 		)
